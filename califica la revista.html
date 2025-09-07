@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Calificación con Reseña</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #f3f4f6, #e5e7eb);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .star {
+            font-size: 3rem;
+            color: #d1d5db; /* Gray by default */
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .star:hover {
+            transform: scale(1.1);
+        }
+        .star.selected {
+            color: #fbbf24; /* Yellow when selected */
+        }
+        .rating-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .review-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 5rem;
+        }
+        #feedback {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-3xl font-bold text-center mb-8">Califica Nuestro Servicio</h1>
+    
+    <div class="rating-container" id="stars">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+    
+    <div class="review-form">
+        <h2 class="text-xl font-semibold mb-4">Deja tu Reseña</h2>
+        <textarea id="reviewText" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Escribe aquí tu comentario..."></textarea>
+        <div class="mt-4">
+            <button id="submitBtn">Enviar Reseña</button>
+            <p id="feedback" class="hidden text-green-600">¡Gracias por tu opinión!</p>
+        </div>
+    </div>
+
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const submitBtn = document.getElementById('submitBtn');
+        const feedback = document.getElementById('feedback');
+        let currentRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const value = parseInt(star.getAttribute('data-value'));
+                currentRating = value;
+                updateStars(value);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        submitBtn.addEventListener('click', () => {
+            const review = document.getElementById('reviewText').value.trim();
+            if (review && currentRating > 0) {
+                // Aquí podrías enviar los datos a un servidor, pero por simplicidad, solo mostramos feedback
+                feedback.classList.remove('hidden');
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                    document.getElementById('reviewText').value = '';
+                    updateStars(0);
+                    currentRating = 0;
+                }, 3000);
+            } else {
+                alert('Por favor, selecciona una calificación y escribe una reseña.');
+            }
+        });
+    </script>
+</body>
+</html>
+</content>
+</create_file>
